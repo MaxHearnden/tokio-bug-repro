@@ -17,7 +17,7 @@ rustPlatform.buildRustPackage {
     for output in mir llvm-ir asm; do
       (
       set -x
-      cargo rustc --frozen -p tokio-minimal -F rt-multi-thread --target \
+      cargo rustc --frozen --bin tokio-minimal -p tokio-minimal -F rt-multi-thread --target \
         ${rust.toRustTargetSpec stdenv.hostPlatform} --release -- --emit \
         $output=$out/tokio.$output
       )
@@ -26,7 +26,8 @@ rustPlatform.buildRustPackage {
   '';
 
   installPhase = ''
-    # cp $bins $out
+    mkdir -p $out/bin
+    cp $bins $out/bin
   '';
 
   dontCargoInstall = true;
@@ -46,4 +47,8 @@ rustPlatform.buildRustPackage {
   buildFeatures = [ "rt-multi-thread" ];
 
   cargoBuildFlags = "-p tokio-minimal";
+
+  meta = {
+    mainProgram = "tokio-minimal";
+  };
 }

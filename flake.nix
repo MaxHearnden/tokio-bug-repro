@@ -24,6 +24,11 @@
           nativeBuildInputs = nativeBuildInputs ++ [ pkgs.cargo-watch ];
         }
       );
+      cross = self.packages.${system}.default.overrideAttrs (
+        {nativeBuildInputs ? [], ...}: {
+          nativeBuildInputs = nativeBuildInputs ++ [ pkgs.cargo-watch ];
+        }
+      );
     }) legacyPackages;
   };
 }

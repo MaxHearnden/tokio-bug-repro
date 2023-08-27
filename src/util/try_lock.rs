@@ -5,6 +5,7 @@ use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
 use std::sync::atomic::Ordering::SeqCst;
 
+#[repr(align(1))]
 pub struct TryLock<T> {
     locked: AtomicBool,
     data: UnsafeCell<T>,
